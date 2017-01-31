@@ -1,0 +1,22 @@
+#!/bin/sh
+set -ex
+
+apk --no-cache -U add --virtual build-dependencies alpine-sdk xz poppler-dev pango-dev m4 libtool perl autoconf automake coreutils python-dev zlib-dev freetype-dev glib-dev cmake 
+
+# fontforge
+cd /tmp/
+git clone https://github.com/BWITS/fontforge.git
+cd fontforge
+./bootstrap --force
+./configure --without-iconv
+make
+make install
+
+# pdf2htmlEX
+cd /tmp/
+git clone git://github.com/coolwanglu/pdf2htmlEX.git 
+cd pdf2htmlEX
+cmake . && make && make install
+
+apk del build-dependencies
+rm -rf /tmp/* /var/tmp/* /var/cache/apk/*

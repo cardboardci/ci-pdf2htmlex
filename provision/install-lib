@@ -1,0 +1,9 @@
+#!/bin/sh
+set -ex
+
+apk --update --no-cache add libpng python freetype glib libintl libxml2 libltdl cairo poppler pango curl make
+
+apk add --no-cache --repository http://nl.alpinelinux.org/alpine/edge/community shadow 
+groupmod -g 1000 users
+
+rm -rf /tmp/* /var/tmp/* /var/cache/apk/* /var/lib/apt/lists/*
