@@ -12,6 +12,7 @@ before_script:
 build:
   stage: build
   only: 
+    - local
     - master
   script:
     - apk --no-cache add make
