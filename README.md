@@ -33,10 +33,6 @@ Build arguments used in the system.
 | ---------- | -------- | --------------- |
 | BUILD_DATE | - | The date which the image was built. |
 | VERSION | - | The version of the image. |
-| DUID | 6500 | The [user id](http://www.linfo.org/uid.html) of the docker user. |
-| DGID | 6510 | The [group id](http://www.linfo.org/uid.html) of the docker user's group. |
-| UNAME | plex | The user name of the docker user. |
-| GNAME | plex | The group name of the docker user's group. |
 
 ### Environment Variables
 
@@ -48,7 +44,7 @@ Environment variables used in the system.
 
 ### Volumes
 
-Volumes exposed by the docker container.[^1]
+Volumes exposed by the docker container.
 
 | Volume | Description |
 | ------ | ----------- |
@@ -70,21 +66,6 @@ docker build \
 		--build-arg VERSION="${VERSION}" \
 		--pull -t ${IMAGE}:${TAG} .
 ```
-
-## User and Group Mapping
-
-All processes within the docker container will be run as the **docker user**, a non-root user.  The **docker user** is created on build with the user id `DUID` and a member of a group with group id `DGID`.  
-
-Any permissions on the host operating system (OS) associated with either the user (`DUID`) or group (`DGID`) will be associated with the docker container.  The values of `DUID` and `DGID` are visible in the [Build Arguments](#Build-Arguments), and can be accessed by the the command:
-
-```console
-docker inspect -f '{{ index .Config.Labels "user" }}' $IMAGE
-docker inspect -f '{{ index .Config.Labels "group" }}' $IMAGE
-```
-
-The notation of the build variables is short form for docker user id (`DUID`) and docker group id (`DGID`). 
-
-[^1]: It is necessary to ensure that the **docker user** (`DUID`) has permission to access volumes. (see [User / Group Identifiers](#User-and-Group-Mapping)
 
 [ci-badge]: /../badges/master/build.svg
 [ci]: /../commits/master
