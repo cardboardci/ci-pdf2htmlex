@@ -1,5 +1,21 @@
-# Dockerized Pdf2HtmlEX
-[![Build Status][ci-badge]][ci][![MIT License][license-badge]][license][![Alpine][alpine-badge]][alpine]
+<div align="center">
+  <img alt="Dockerized Pdf2HtmlEX" src="./icon.png"/>
+  <br/>
+  <h1>Dockerized Pdf2HtmlEX</h1>
+</div>
+
+<p align="center">
+  Pdf2htmlEX renders PDF files in HTML, utilizing modern Web technologies.
+</p>
+
+<div align="center">
+  <a href="/../commits/master"><img alt="Build Status" src="/../badges/master/build.svg" /></a>
+  <a href="/../blob/master/LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-blue.svg?maxAge=2592000" /></a>
+  <a href="https://alpinelinux.org/posts/Alpine-3.3.0-released.html"><img alt="Base image" src="https://img.shields.io/badge/alpine-3.3-green.svg?maxAge=2592000" /></a>
+</div>
+<br/>
+
+## Abstract
 
 [Pdf2htmlEX](https://github.com/coolwanglu/pdf2htmlEX) renders PDF files in HTML, utilizing modern Web technologies.
 
@@ -66,10 +82,3 @@ docker build \
 		--build-arg VERSION="${VERSION}" \
 		--pull -t ${IMAGE}:${TAG} .
 ```
-
-[ci-badge]: /../badges/master/build.svg
-[ci]: /../commits/master
-[license-badge]: https://img.shields.io/badge/license-MIT-blue.svg?maxAge=2592000
-[license]: /../blob/master/LICENSE
-[alpine-badge]: https://img.shields.io/badge/alpine-3.3-green.svg?maxAge=2592000
-[alpine]: https://alpinelinux.org/posts/Alpine-3.3.0-released.html
