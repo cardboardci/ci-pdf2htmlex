@@ -1,5 +1,5 @@
 <div align="center">
-  <img alt="Dockerized Pdf2HtmlEX" src="./icon.png" width="200px" height="200px" />
+  <img alt="Dockerized Pdf2HtmlEX" src="./icon.png"/>
   <br/>
   <h1>Dockerized Pdf2HtmlEX</h1>
 </div>
