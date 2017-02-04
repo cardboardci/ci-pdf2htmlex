@@ -1,5 +1,5 @@
 #!/bin/sh
-set -ex
+set -ex 
 
 apk --update --no-cache add libpng python freetype glib libintl libxml2 libltdl cairo poppler pango curl make
 
