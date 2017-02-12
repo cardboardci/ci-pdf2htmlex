@@ -95,5 +95,5 @@ The notation of the build variables is short form for docker user id (`DUID`) an
 
 [license-badge]: https://img.shields.io/badge/license-MIT-blue.svg?maxAge=2592000
 [license]: /../blob/master/LICENSE
-[alpine-badge]: https://img.shields.io/badge/alpine-3.3-green.svg?maxAge=2592000
-[alpine]: https://alpinelinux.org/posts/Alpine-3.3.0-released.html
+[alpine-badge]: https://img.shields.io/badge/alpine-3.5-green.svg?maxAge=2592000
+[alpine]: https://alpinelinux.org/posts/Alpine-3.5.0-released.html
