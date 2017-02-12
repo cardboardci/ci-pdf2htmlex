@@ -1,5 +1,5 @@
 # Dockerized Pdf2HtmlEX
-[![Build Status][ci-badge]][ci][![MIT License][license-badge]][license][![Alpine][alpine-badge]][alpine]
+[![MIT License][license-badge]][license][![Alpine][alpine-badge]][alpine]
 
 [Pdf2htmlEX](https://github.com/coolwanglu/pdf2htmlEX) renders PDF files in HTML, utilizing modern Web technologies.
 

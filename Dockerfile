@@ -16,8 +16,6 @@ RUN sh /tmp/install && rm -rf /tmp/*
 COPY provision/install-lib /tmp/install-lib
 RUN sh /tmp/install-lib && rm -f /tmp/install-lib
 
-RUN addgroup -g ${DGID} -S docker && adduser -S -G docker -u ${DUID} docker
-
 # Volumes
 #
 # Volumes exposed by the docker container
@@ -40,6 +38,7 @@ ARG USER
 # User
 #
 # Configuration of the docker user for container execution.
+RUN addgroup -g ${DGID} -S docker && adduser -S -G docker -u ${DUID} docker
 USER ${USER}
 
 # Metadata Arguments
