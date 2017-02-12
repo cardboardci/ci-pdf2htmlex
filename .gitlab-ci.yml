@@ -19,7 +19,10 @@ build:
   artifacts:
     paths:
       - image.tar
-
+  only:
+    - latest
+    - locked
+    
 test:
   stage: test
   script:
@@ -27,6 +30,11 @@ test:
   artifacts:
     paths:
       - image.tar
+  dependencies:
+    - build
+  only:
+    - latest
+    - locked
 
 release:
   stage: release
@@ -34,3 +42,8 @@ release:
     - docker load --input=image.tar
     - docker login -u $CI_BUILD_USER -p $CI_BUILD_TOKEN
     - make push
+  dependencies:
+    - build
+  only:
+    - latest
+    - locked

@@ -24,6 +24,8 @@ compile_pdf:
       - index.html
 ```
 
+You can use either the latest image with a root user, or the image `jrbeverly/pdf2htmlex:locked` to use a non-root user.
+
 ## Image Tags
 
 Build tags available with the image `jrbeverly/pdf2htmlex:{TAG}`.
