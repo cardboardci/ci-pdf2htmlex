@@ -31,6 +31,7 @@ Build tags available with the image `jrbeverly/pdf2htmlex:{TAG}`.
 | Tag | Status | Description |
 | --- | ------ | ----------- |
 | [master](/../tree/master) | [![build status](/../badges/master/build.svg)](/../commits/master) | An alpine image with pdf2htmlEX installed. |
+| [ci](/../tree/ci) | [![build status](/../badges/ci/build.svg)](/../commits/ci) | An alpine image with pdf2htmlEX installed using non-root. |
 
 ## Components
 ### Build Arguments
