@@ -1,4 +1,4 @@
-FROM alpine:3.3
+FROM alpine:3.5
 MAINTAINER jrbeverly
 
 # Environment Variables
@@ -11,10 +11,12 @@ ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig/:/usr/lib/pkgconfig/
 #
 # Copy and execute provisioning scripts of the docker container.
 COPY provision/install /tmp/install
-RUN sh /tmp/install; sync; rm -rf /tmp/*
+RUN sh /tmp/install && rm -rf /tmp/*
 
 COPY provision/install-lib /tmp/install-lib
-RUN sh /tmp/install-lib; sync; rm -f /tmp/install-lib
+RUN sh /tmp/install-lib && rm -f /tmp/install-lib
+
+RUN addgroup -g ${DGID} -S docker && adduser -S -G docker -u ${DUID} docker
 
 # Volumes
 #
@@ -25,6 +27,20 @@ VOLUME /media
 #
 # Configuration options of the docker container
 WORKDIR /media
+ENTRYPOINT []
+CMD []
+
+# User Arguments
+#
+# Arguments used in the user process of the docker container.
+ARG DUID
+ARG DGID
+ARG USER
+
+# User
+#
+# Configuration of the docker user for container execution.
+USER ${USER}
 
 # Metadata Arguments
 #
@@ -39,3 +55,5 @@ LABEL app="pdf2htmlEX"
 LABEL description="pdf2htmlEX renders PDF files in HTML, utilizing modern Web technologies."
 LABEL version="${VERSION}"
 LABEL build_date="${BUILD_DATE}"
+LABEL user="${DUID}"
+LABEL group="${DGID}"

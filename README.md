@@ -16,13 +16,21 @@ You can add a build job with `.gitlab-ci.yml`
 
 ```yaml
 compile_pdf:
-  image: jrbeverly/pdf2htmlEX
+  image: jrbeverly/pdf2htmlex
   script:
     - pdf2htmlEX --zoom 1.8 report.pdf
   artifacts:
     paths:
       - index.html
 ```
+
+## Image Tags
+
+Build tags available with the image `jrbeverly/pdf2htmlex:{TAG}`.
+
+| Tag | Status | Description |
+| --- | ------ | ----------- |
+| [master](/../tree/master) | [![build status](/../badges/master/build.svg)](/../commits/master) | An alpine image with pdf2htmlEX installed. |
 
 ## Components
 ### Build Arguments
@@ -33,6 +41,8 @@ Build arguments used in the system.
 | ---------- | -------- | --------------- |
 | BUILD_DATE | - | The date which the image was built. |
 | VERSION | - | The version of the image. |
+| DUID | see [Makefile](Makefile.image.variable) | The [user id](http://www.linfo.org/uid.html) of the docker user. |
+| DGID | see [Makefile](Makefile.image.variable) | The [group id](http://www.linfo.org/uid.html) of the docker user's group. |
 
 ### Environment Variables
 
@@ -44,7 +54,7 @@ Environment variables used in the system.
 
 ### Volumes
 
-Volumes exposed by the docker container.
+Volumes exposed by the docker container.[^1]
 
 | Volume | Description |
 | ------ | ----------- |
@@ -58,7 +68,7 @@ To build the docker image, use the included makefile.
 make build
 ```
 
-You can also build the image manually, but it is recommended to use the makefile.
+You can also build the image manually, but it is recommended to use the makefile to ensure all build arguments are provided.
 
 ```
 docker build \
@@ -67,8 +77,21 @@ docker build \
 		--pull -t ${IMAGE}:${TAG} .
 ```
 
-[ci-badge]: /../badges/master/build.svg
-[ci]: /../commits/master
+## User and Group Mapping
+
+All processes within the docker container will be run as the **docker user**, a non-root user.  The **docker user** is created on build with the user id `DUID` and a member of a group with group id `DGID`.  
+
+Any permissions on the host operating system (OS) associated with either the user (`DUID`) or group (`DGID`) will be associated with the docker container.  The values of `DUID` and `DGID` are visible in the [Build Arguments](#Build-Arguments), and can be accessed by the the command:
+
+```console
+docker inspect -f '{{ index .Config.Labels "user" }}' $IMAGE
+docker inspect -f '{{ index .Config.Labels "group" }}' $IMAGE
+```
+
+The notation of the build variables is short form for docker user id (`DUID`) and docker group id (`DGID`). 
+
+[^1]: It is necessary to ensure that the **docker user** (`DUID`) has permission to access volumes. (see [User / Group Identifiers](#User-and-Group-Mapping)
+
 [license-badge]: https://img.shields.io/badge/license-MIT-blue.svg?maxAge=2592000
 [license]: /../blob/master/LICENSE
 [alpine-badge]: https://img.shields.io/badge/alpine-3.3-green.svg?maxAge=2592000
