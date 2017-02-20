@@ -2,4 +2,7 @@
 set -ex
 
 pdf2htmlEX --version
-pdf2htmlEX test.pdf
+
+for filename in *.pdf; do
+    pdf2htmlEX $filename
+done

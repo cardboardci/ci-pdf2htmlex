@@ -49,6 +49,7 @@ test:
   stage: test
   script:
     - make get-base
+    - (cd test/ && sh pull.sh)
     - make test
   dependencies:
     - build-base
