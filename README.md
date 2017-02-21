@@ -3,6 +3,15 @@
 [![License][license-badge]][license-link]
 [![Build][build-badge]][build-link]
 
+---
+
+ * [Summary](#summary)
+ * [Usage](#usage)
+ * [Components](#components)
+ * [Build Process](#build-process)
+ * [Labels](#labels)
+ * [User and Group Mapping](#user-and-group-mapping)
+
 ## Summary
 
 [Pdf2htmlEX](https://github.com/coolwanglu/pdf2htmlEX) renders PDF files in HTML, utilizing modern Web technologies.
