@@ -25,7 +25,8 @@ docker run -v /media/:/media/ jrbeverly/pdf2htmlex pdf2htmlEX report.pdf
 ```
 
 ### Gitlab
-You can add a build job with `.gitlab-ci.yml`
+
+You can setup a build job using `.gitlab-ci.yml`:
 
 ```yaml
 compile_pdf:
@@ -43,7 +44,7 @@ Build tags available with the image `jrbeverly/pdf2htmlex:{TAG}`.
 
 | Tag | Status | Description |
 | --- | ------ | ----------- |
-| [![Version base][base-badge]][base-link] | [![Image base][base-image-badge]][base-link] | A docker image with pdf2htmlEX installed, with a non-root running user. |
+| [![Version base][base-badge]][base-link] | [![Image base][base-image-badge]][base-link] | A docker image with pdf2htmlEX installed, running as docker user (`DUID`). |
 | [![Version privileged][privileged-badge]][privileged-link] | [![Image privileged][privileged-image-badge]][privileged-link]  | A docker image with pdf2htmlEX installed. |
 
 ## Components
@@ -123,7 +124,7 @@ docker inspect -f '{{ index .Config.Labels "io.gitlab.jrbeverly.group" }}' IMAGE
 
 The notation of the build variables is short form for docker user id (`DUID`) and docker group id (`DGID`). 
 
-[^1]: It is necessary to ensure that the **docker user** (`DUID`) has permission to access volumes. (see [User / Group Identifiers](#user-and-group-mapping)
+[^1]: It is necessary to ensure that the **docker user** (`DUID`) has permission to access volumes. (see [User / Group Identifiers](#user-and-group-mapping))
 
 [build-badge]: https://gitlab.com/jrbeverly-docker/docker-pdf2htmlex/badges/master/build.svg
 [build-link]: https://gitlab.com/jrbeverly-docker/docker-pdf2htmlex/commits/master
