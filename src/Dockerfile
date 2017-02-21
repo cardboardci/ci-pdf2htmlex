@@ -58,17 +58,16 @@ ARG VCS_REF
 #
 # The metadata of the image.
 LABEL \
+    org.label-schema.build-date=$BUILD_DATE \
     org.label-schema.name="pdf2htmlEX" \
     org.label-schema.description="pdf2htmlEX renders PDF files in HTML, utilizing modern Web technologies." \
     org.label-schema.url="https://github.com/coolwanglu/pdf2htmlEX" \
-    org.label-schema.vendor="coolwanglu" \
-    org.label-schema.schema-version="1.0" \
     org.label-schema.license="MIT" \
     org.label-schema.vcs-type="Git" \
-    org.label-schema.vcs-ref="${VCS_REF}" \
+    org.label-schema.vcs-ref=$VCS_REF \
     org.label-schema.vcs-url="https://gitlab.com/jrbeverly-docker/docker-pdf2htmlEX.git" \
-    org.label-schema.ci-build-url="https://gitlab.com/jrbeverly-docker/docker-pdf2htmlEX/commits/master" \
-    org.label-schema.version="${VERSION}" \
-    org.label-schema.build-date="${BUILD_DATE}" \
+    org.label-schema.vendor="jrbeverly" \
+    org.label-schema.version=$VERSION \
+    org.label-schema.schema-version="1.0" \
     io.gitlab.jrbeverly.user="${DUID}" \
-    io.gitlab.jrbeverly.group="${DGID}" \
+    io.gitlab.jrbeverly.group="${DGID}"
