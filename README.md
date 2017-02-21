@@ -12,7 +12,7 @@
 You can use this image locally with `docker run`, calling [`pdf2htmlEX`](https://github.com/coolwanglu/pdf2htmlEX/wiki/Quick-Start) as such:
 
 ```console
-docker run -v /media:/media jrbeverly/pdf2htmlex pdf2htmlEX report.pdf
+docker run -v /media/:/media/ jrbeverly/pdf2htmlex pdf2htmlEX report.pdf
 ```
 
 ### Gitlab
@@ -65,7 +65,7 @@ Volumes exposed by the docker container.[^1]
 
 | Volume | Description |
 | ------ | ----------- |
-| /media | The directory containing the pdf to convert. |
+| /media/ | The directory containing the pdf to convert. |
 
 ### Environment Variables
 
