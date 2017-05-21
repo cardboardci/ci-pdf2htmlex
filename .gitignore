@@ -3,3 +3,7 @@
 *.swp
 *.db
 *.html
+
+*.pdf
+target/
+test/target/
