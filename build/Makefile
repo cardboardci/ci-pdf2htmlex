@@ -11,17 +11,18 @@ USER ?= docker
 # Variables
 #
 # Common variables of the project.
-DOCKER_IMAGE := ${REGISTRY}/${NAMESPACE}/${PROJECT}
+DOCKER_IMAGE := $(REGISTRY)/$(NAMESPACE)/$(PROJECT)
 RELEASE_IMAGE ?= $(DOCKER_IMAGE)
 IMAGE_REF ?= $(DOCKER_IMAGE):$(PREFIX_TAG)$(TAG)
 
 # File System Variables
 #
 # Variables related to the file system paths.
-DIRECTORY := $(shell cygpath -u $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST)))))
+DIRECTORY := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 DIRECTORY_ROOT := $(shell dirname $(DIRECTORY))
+DIRECTORY_TEST := $(shell cygpath -u $(shell dirname $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))))
 DOCKER_DIR := $(DIRECTORY_ROOT)/src
-DOCKERFILE := $(VERSIONS)/$(VERSION)/Dockerfile
+DOCKERFILE := $(DOCKER_DIR)/Dockerfile
 
 .PHONY: build baseimage privileged test debug pull push prune clean  
 
@@ -61,21 +62,19 @@ privileged: build
 #
 # Test rules for docker projects.
 test:
-	docker run --rm -v $(DIRECTORY_ROOT)/test:/media ${DOCKER_IMAGE}:${TAG} sh test_${TAG}.sh
+	docker run --rm -v $(DIRECTORY_TEST)/test:/media ${DOCKER_IMAGE}:${TAG} sh test_${TAG}.sh
 
 # Generic rules
 #
 # Generic rules for docker projects.
-
 debug:
 	@echo Docker Image: $(DOCKER_IMAGE)
-	@echo $(DIRECTORY)
 
-#BAR := /cygdrive/c/foo/bar
-#WIN_BAR := $(shell cygpath -w ${BAR})
+info:
+	@echo $(DOCKER_IMAGE)
 
 pull:
-	docker pull --all-tags ${DOCKER_IMAGE}
+	docker pull ${DOCKER_IMAGE}:${TAG}
 
 push:
 	docker push ${DOCKER_IMAGE}
