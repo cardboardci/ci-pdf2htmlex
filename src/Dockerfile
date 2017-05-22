@@ -1,4 +1,4 @@
-FROM alpine:3.5
+FROM jrbeverly/baseimage:alpine-3.5
 MAINTAINER jrbeverly
 
 # Build Arguments
@@ -10,17 +10,16 @@ ARG PDF2HTMLEX_URL
 # Environment Variables
 #
 # Environment variables present in the docker container.
-ENV HOME=/
 ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig/:/usr/lib/pkgconfig/
 
 # Provision
 #
 # Copy and execute provisioning scripts of the docker container.
-COPY provision/install /tmp/install
-RUN sh /tmp/install && rm -f /tmp/install
+COPY provision/install.sh /tmp/install.sh
+RUN sh /tmp/install.sh && rm -f /tmp/install.sh
 
-COPY provision/install-lib /tmp/install-lib
-RUN sh /tmp/install-lib && rm -f /tmp/install-lib
+COPY provision/install-lib.sh /tmp/install-lib.sh
+RUN sh /tmp/install-lib.sh && rm -f /tmp/install-lib.sh
 
 # Volumes
 #
@@ -37,14 +36,11 @@ CMD []
 # User Arguments
 #
 # Arguments used in the user process of the docker container.
-ARG DUID
-ARG DGID
 ARG USER
 
 # User
 #
 # Configuration of the docker user for container execution.
-RUN addgroup -g ${DGID} -S docker && adduser -S -G docker -u ${DUID} docker
 USER ${USER}
 
 # Metadata Arguments
@@ -66,8 +62,4 @@ LABEL \
     org.label-schema.vcs-type="Git" \
     org.label-schema.vcs-ref=$VCS_REF \
     org.label-schema.vcs-url="https://gitlab.com/jrbeverly-docker/docker-pdf2htmlEX.git" \
-    org.label-schema.vendor="jrbeverly" \
-    org.label-schema.version=$VERSION \
-    org.label-schema.schema-version="1.0" \
-    io.gitlab.jrbeverly.user="${DUID}" \
-    io.gitlab.jrbeverly.group="${DGID}"
+    org.label-schema.version=$VERSION

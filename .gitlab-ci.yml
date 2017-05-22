@@ -4,67 +4,66 @@ services:
   - docker:dind
 
 before_script:
-  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CONTAINER_REGISTRY
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
   - apk --no-cache add make
 
 stages:
-  - configure
   - build
   - test
   - release
 
-configure:
-  stage: configure
-  script:
-    - sh configure init -r $CONTAINER_REGISTRY -n $CI_PROJECT_NAMESPACE -p $CI_PROJECT_NAME
-    - sh configure metadata -c $CI_BUILD_REF
-  artifacts:
-    paths:
-      - "*.variable"
-    expire_in: 2 hours
+variables:
+  REGISTRY: registry.gitlab.com
+  NAMESPACE: jrbeverly-docker
+  PROJECT: docker-pdf2htmlex
+  GIT_COMMIT: ${CI_COMMIT_SHA}
+  PREFIX_TAG: ${CI_COMMIT_SHA}-
+  RELEASE_IMAGE: docker.io/jrbeverly/pdf2htmlex
+  IMAGE_VERSION: baseimage
 
-build-base:
+# Build
+#
+# Build steps.
+build:
   stage: build
   script:
-    - make baseimage && make push
-  dependencies:
-    - configure
-  artifacts:
-    paths:
-      - "*.variable"
-    expire_in: 2 hours
+    - make -C build/ $IMAGE_VERSION
+    - make -C build/ TAG=$IMAGE_VERSION push
+  only:
+    - tags
+    - /^versions-.*$/
+  except:
+    - master
 
-build-privileged:
-  stage: build
-  script:
-    - make privileged && make push
-  dependencies:
-    - configure
-  artifacts:
-    paths:
-      - "*.variable"
-    expire_in: 2 hours
-
+# Test
+#
+# Test steps.
 test:
   stage: test
   script:
-    - make get-base
-    - (cd test/ && sh pull.sh)
-    - make test
+    - make -s -C build/ TAG=$IMAGE_VERSION pull
+    - make -s -C build/ TAG=$IMAGE_VERSION test
   dependencies:
-    - build-base
-    - build-privileged
-  artifacts:
-    paths:
-      - "*.variable"
-      - test/*
-    expire_in: 2 hours
+    - build
+  only:
+    - tags
+    - /^versions-.*$/
+  except:
+    - master
 
+# Release
+#
+# Release steps.
 release:
   stage: release
   script:
     - docker login -u $DOCKER_BUILD_USER -p $DOCKER_BUILD_TOKEN
-    - make pull
-    - make deploy
+    - make -C build/ TAG=$IMAGE_VERSION pull
+    - make -C build/ TAG=$IMAGE_VERSION release
   dependencies:
     - test
+  only:
+    - tags
+    - /^versions-.*$/
+  except:
+    - master

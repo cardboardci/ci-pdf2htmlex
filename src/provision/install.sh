@@ -2,9 +2,7 @@
 set -ex
 cd /tmp/
 
-apk update && apk upgrade
-
-apk --update --no-cache add --virtual build-dependencies libxml2 libxml2-dev alpine-sdk xz poppler-dev pango-dev m4 libtool perl autoconf automake coreutils python-dev zlib-dev freetype-dev glib-dev cmake
+apk --no-cache add --virtual build-dependencies libxml2 libxml2-dev alpine-sdk xz poppler-dev pango-dev m4 libtool perl autoconf automake coreutils python-dev zlib-dev freetype-dev glib-dev cmake
 
 # fontforge
 cd /tmp/
