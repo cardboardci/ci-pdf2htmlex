@@ -35,7 +35,7 @@ all:
 # Build rules for the docker project.
 build:
 	docker build --pull \
-		-t ${DOCKER_IMAGE}:$(TAG) \
+		-t $(IMAGE_REF) \
 		--build-arg BUILD_DATE="${BUILD_DATE}" \
 		--build-arg VERSION="${CODE_VERSION}" \
 		--build-arg VCS_REF="${GIT_COMMIT}" \
@@ -56,16 +56,16 @@ privileged: build
 #
 # Test rules for docker projects.
 test:
-	docker run --rm -v $(DIRECTORY_TEST)/test:/media ${DOCKER_IMAGE}:${TAG} sh test_${TAG}.sh
+	docker run --rm -v $(DIRECTORY_TEST)/test:/media $(IMAGE_REF) sh test_${TAG}.sh
 
 # Generic rules
 #
 # Generic rules for docker projects.
 debug:
-	@echo Docker Image: $(DOCKER_IMAGE)
+	@echo Docker Image: $(IMAGE_REF)
 
 info:
-	@echo $(DOCKER_IMAGE)
+	@echo $(IMAGE_REF)
 
 clean:
 	docker rmi $(shell docker images | grep ${NAMESPACE}/${PROJECT} | tr -s ' ' | cut -d ' ' -f 3)
