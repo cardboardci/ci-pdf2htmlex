@@ -126,7 +126,7 @@ The notation of the build variables is short form for docker user id (`DUID`) an
 
 [^1]: It is necessary to ensure that the **docker user** (`DUID`) has permission to access volumes. (see [User / Group Identifiers](#user-and-group-mapping))
 
-[build-badge]: https://img.shields.io/badge/build-pipelines-orange.svg?maxAge=2592000
+[build-badge]: https://img.shields.io/badge/build-pipelines-brightgreen.svg?maxAge=2592000
 [build-link]: https://gitlab.com/jrbeverly-docker/docker-pdf2htmlex/pipelines?scope=branches
 
 [license-badge]: https://images.microbadger.com/badges/license/jrbeverly/pdf2htmlex.svg
