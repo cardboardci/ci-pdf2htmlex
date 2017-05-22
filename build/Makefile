@@ -24,17 +24,11 @@ DIRECTORY_TEST := $(shell cygpath -u $(shell dirname $(shell dirname $(realpath 
 DOCKER_DIR := $(DIRECTORY_ROOT)/src
 DOCKERFILE := $(DOCKER_DIR)/Dockerfile
 
-.PHONY: build baseimage privileged test debug pull push prune clean  
+.PHONY: build baseimage privileged test debug pull push prune clean release info
 
 all: 
 	${MAKE} -s baseimage 
 	${MAKE} -s privileged
-
-release: 
-	${MAKE} -s debug 
-	${MAKE} -s baseimage 
-	${MAKE} -s privileged
-	${MAKE} -s push
 
 # Build rules
 #
@@ -73,14 +67,18 @@ debug:
 info:
 	@echo $(DOCKER_IMAGE)
 
-pull:
-	docker pull ${DOCKER_IMAGE}:${TAG}
-
-push:
-	docker push ${DOCKER_IMAGE}
+clean:
+	docker rmi $(shell docker images | grep ${NAMESPACE}/${PROJECT} | tr -s ' ' | cut -d ' ' -f 3)
 
 prune:
 	docker images -q -f dangling=true | xargs --no-run-if-empty docker rmi
 
-clean:
-	docker rmi --force ${DOCKER_IMAGE}:baseimage ${DOCKER_IMAGE}:privileged || exit 0
+pull:
+	docker pull $(IMAGE_REF)
+
+push:
+	docker push $(IMAGE_REF)
+
+release:
+	docker tag $(IMAGE_REF) $(RELEASE_IMAGE):$(TAG)
+	docker push $(RELEASE_IMAGE):$(TAG)

@@ -63,7 +63,7 @@ function graphics_pdf()
         fi
     }
 
-    echo "Testing image pdf2htmlex for privileged."
+    echo "Testing image pdf2htmlex for baseimage."
     mkdir -p $BIN_DIR
     (
       RESULT=$(version)
