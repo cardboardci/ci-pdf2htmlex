@@ -18,9 +18,6 @@ ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig/:/usr/lib/pkgconfig/
 COPY provision/install.sh /tmp/install.sh
 RUN sh /tmp/install.sh && rm -f /tmp/install.sh
 
-COPY provision/install-lib.sh /tmp/install-lib.sh
-RUN sh /tmp/install-lib.sh && rm -f /tmp/install-lib.sh
-
 # Volumes
 #
 # Volumes exposed by the docker container.
