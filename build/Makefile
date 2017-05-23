@@ -4,7 +4,7 @@ include Makefile.image.variable
 
 # Build Variables
 #
-# Variables used for the generic build
+# Variables used for the build
 TAG ?= baseimage
 USER ?= docker
 
@@ -20,9 +20,9 @@ IMAGE_REF ?= $(DOCKER_IMAGE):$(PREFIX_TAG)$(TAG)
 # Variables related to the file system paths.
 DIRECTORY := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 DIRECTORY_ROOT := $(shell dirname $(DIRECTORY))
-DIRECTORY_TEST := $(shell dirname $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST)))))
+DIRECTORY_RUN := $(shell dirname $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST)))))
 ifeq ($(OS),Windows_NT)
-    DIRECTORY_TEST := $(shell cygpath -u $(DIRECTORY_TEST))
+    DIRECTORY_RUN := $(shell cygpath -u $(DIRECTORY_RUN))
 endif
 
 DOCKER_DIR := $(DIRECTORY_ROOT)/src
@@ -32,15 +32,15 @@ DOCKERFILE := $(DOCKER_DIR)/Dockerfile
 #
 # The rules of the makefile
 
-.PHONY: build baseimage privileged test debug pull push prune clean release info
+.PHONY: build baseimage privileged test debug info pull push prune clean release
 
 all: 
-	${MAKE} -s baseimage 
+	${MAKE} -s baseimage
 	${MAKE} -s privileged
 
 # Build rules
 #
-# Build rules for the docker project.
+# Build rules for constructing the docker images.
 build:
 	docker build --pull \
 		-t $(IMAGE_REF) \
@@ -62,13 +62,13 @@ privileged: build
 
 # Testing rules
 #
-# Test rules for docker projects.
+# Test rules for testing the images.
 test:
-	docker run --rm -v $(DIRECTORY_TEST)/test:/media $(IMAGE_REF) sh test_${TAG}.sh
+	docker run --rm -v $(DIRECTORY_RUN)/test:/media $(IMAGE_REF) sh test_${TAG}.sh
 
-# Generic rules
+# Common rules
 #
-# Generic rules for docker projects.
+# Common rules for docker projects.
 debug:
 	@echo Docker Image: $(IMAGE_REF)
 
