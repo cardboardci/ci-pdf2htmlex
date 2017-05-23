@@ -3,9 +3,9 @@ image: docker:latest
 services:
   - docker:dind
 
-before_script:
-  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
-  - apk --no-cache add make
+# ---------------------------------------
+# Global
+# ---------------------------------------
 
 stages:
   - build
@@ -19,51 +19,96 @@ variables:
   GIT_COMMIT: ${CI_COMMIT_SHA}
   PREFIX_TAG: ${CI_COMMIT_SHA}-
   RELEASE_IMAGE: docker.io/jrbeverly/pdf2htmlex
-  IMAGE_VERSION: baseimage
 
+# ----------------------------------------
+# Prescript
+# ----------------------------------------
+
+before_script:
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+  - apk --no-cache add make
+
+# ----------------------------------------
 # Build
-#
-# Build steps.
-build:
+# ----------------------------------------
+
+build-baseimage:
   stage: build
+  variables: 
+    IMAGE_VERSION: baseimage
   script:
     - make -C build/ $IMAGE_VERSION
     - make -C build/ TAG=$IMAGE_VERSION push
   only:
-    - tags
-    - /^versions-.*$/
+    - triggers
+    - /^version-.*$/
   except:
-    - master
+    - branches
 
-# Test
-#
-# Test steps.
-test:
+build-privileged:
+  stage: build
+  variables: 
+    IMAGE_VERSION: privileged
+  script:
+    - make -C build/ $IMAGE_VERSION
+    - make -C build/ TAG=$IMAGE_VERSION push
+  only:
+    - triggers
+    - /^version-.*$/
+  except:
+    - branches
+
+# ----------------------------------------
+# Tests
+# ----------------------------------------
+
+test-baseimage:
   stage: test
+  variables: 
+    IMAGE_VERSION: privileged
   script:
     - make -s -C build/ TAG=$IMAGE_VERSION pull
     - make -s -C build/ TAG=$IMAGE_VERSION test
   dependencies:
-    - build
+    - build-baseimage
   only:
-    - tags
-    - /^versions-.*$/
+    - triggers
+    - /^version-.*$/
   except:
-    - master
+    - branches
 
+test-privileged:
+  stage: test
+  variables: 
+    IMAGE_VERSION: privileged
+  script:
+    - make -s -C build/ TAG=$IMAGE_VERSION pull
+    - make -s -C build/ TAG=$IMAGE_VERSION test
+  dependencies:
+    - build-privileged
+  only:
+    - triggers
+    - /^version-.*$/
+  except:
+    - branches
+
+# ----------------------------------------
 # Release
-#
-# Release steps.
+# ----------------------------------------
+
 release:
   stage: release
   script:
     - docker login -u $DOCKER_BUILD_USER -p $DOCKER_BUILD_TOKEN
-    - make -C build/ TAG=$IMAGE_VERSION pull
-    - make -C build/ TAG=$IMAGE_VERSION release
+    - make -C build/ TAG=baseimage pull
+    - make -C build/ TAG=privileged pull
+    - make -C build/ TAG=baseimage release
+    - make -C build/ TAG=privileged release
   dependencies:
-    - test
+    - test-baseimage
+    - test-privileged
   only:
-    - tags
-    - /^versions-.*$/
+    - triggers
+    - /^version-.*$/
   except:
-    - master
+    - branches
