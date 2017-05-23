@@ -65,7 +65,7 @@ build-privileged:
 test-baseimage:
   stage: test
   variables: 
-    IMAGE_VERSION: privileged
+    IMAGE_VERSION: baseimage
   script:
     - make -s -C build/ TAG=$IMAGE_VERSION pull
     - make -s -C build/ TAG=$IMAGE_VERSION test
