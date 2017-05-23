@@ -20,9 +20,17 @@ IMAGE_REF ?= $(DOCKER_IMAGE):$(PREFIX_TAG)$(TAG)
 # Variables related to the file system paths.
 DIRECTORY := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 DIRECTORY_ROOT := $(shell dirname $(DIRECTORY))
-DIRECTORY_TEST := $(shell cygpath -u $(shell dirname $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))))
+DIRECTORY_TEST := $(shell dirname $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST)))))
+ifeq ($(OS),Windows_NT)
+    DIRECTORY_TEST := $(shell cygpath -u $(DIRECTORY_TEST))
+endif
+
 DOCKER_DIR := $(DIRECTORY_ROOT)/src
 DOCKERFILE := $(DOCKER_DIR)/Dockerfile
+
+# Makefile
+#
+# The rules of the makefile
 
 .PHONY: build baseimage privileged test debug pull push prune clean release info
 
