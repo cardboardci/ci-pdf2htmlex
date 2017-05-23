@@ -49,6 +49,9 @@ function graphics_pdf()
     pdf2htmlEX --dest-dir "${mydir}" "${mydir}/graphics_pdf.pdf" >/dev/null 2>&1
 }
 
+# Test Runner
+#
+# Runs the tests.
 (
     function assertEquals()
     {
