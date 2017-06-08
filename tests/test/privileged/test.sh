@@ -15,6 +15,7 @@ DIR_TARGET="${DIR_TESTS}/target"
 # Tests
 #
 . $DIR_LIBRARY/testbase.sh
+. $DIR_LIBRARY/functions.sh
 
 # 
 # Test Runner
@@ -22,6 +23,7 @@ DIR_TARGET="${DIR_TESTS}/target"
 (
     rm -rf $DIR_TARGET
     mkdir -p $DIR_TARGET
+    
     (
       RESULT=$(version)
       assertEquals "version can successfully" 0 $?
