@@ -6,7 +6,7 @@ cd /tmp/
 #
 # The fontforge and pdf2htmlex need to be build from source to be installed.
 
-apk --no-cache add --virtual build-dependencies libxml2 libxml2-dev alpine-sdk xz poppler-dev pango-dev m4 libtool perl autoconf automake coreutils python-dev zlib-dev freetype-dev glib-dev cmake
+apk --update --no-cache add --virtual build-dependencies libxml2 libxml2-dev alpine-sdk xz poppler-dev pango-dev m4 libtool perl autoconf automake coreutils python-dev zlib-dev freetype-dev glib-dev cmake
 
 # fontforge
 cd /tmp/
@@ -25,9 +25,8 @@ cmake . && make && make install
 
 apk del build-dependencies
 
+# 
 # Install
 #
-# Install libraries necessary for the running of the application.
-
 apk --no-cache add libpng python freetype glib libintl libxml2 libxml2-dev libltdl cairo poppler pango curl make
 rm -rf /tmp/* /var/tmp/* /var/cache/apk/*
