@@ -1,0 +1,12 @@
+# Image
+TAG := baseimage
+
+# Build Args
+USER := docker
+FONTFORGE_URL ?= https://github.com/BWITS/fontforge/archive/20150824.tar.gz
+PDF2HTMLEX_URL ?= https://github.com/coolwanglu/pdf2htmlEX/archive/v0.14.6.tar.gz
+BUILD_PARAMS := --build-arg USER="${USER}" --build-arg FONTFORGE_URL="${FONTFORGE_URL}" --build-arg PDF2HTMLEX_URL="${PDF2HTMLEX_URL}"
+
+# Filepath
+PATH_DOCKER := $(PATH_ROOT)/src
+PATH_DOCKERFILE := $(PATH_DOCKER)/Dockerfile

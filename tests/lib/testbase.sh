@@ -1,31 +1,51 @@
 #!/bin/sh
 
-#
-# Variables
-#
-SCRIPT=$(readlink -f "$0")
-DIR="$(dirname $SCRIPT)"
-DIR_ROOT="$(dirname $DIR)"
-
 # Tests
 #
 # A set of common functions that should be tested on the docker image.
 
-function install()
+version()
 {
-    apk add --update zip >/dev/null 2>&1
+    pdf2htmlEX --version >/dev/null 2>&1
 }
 
-function simple_svg()
+install()
 {
-    rsvg-convert resources/test.svg -o target/test.png
+    apk add --no-cache zip >/dev/null 2>&1
+}
+
+single_pdf()
+{
+    mydir="${DIR_TARGET}/simple_pdf"
+    mkdir -p $mydir
+
+    curl -o "${mydir}/simple_pdf.pdf" "https://upload.wikimedia.org/wikipedia/commons/0/05/Cheatsheet-en.pdf" >/dev/null 2>&1
+    pdf2htmlEX --dest-dir "${mydir}" "${mydir}/simple_pdf.pdf" >/dev/null 2>&1
+}
+
+multi_pdf()
+{
+    mydir="${DIR_TARGET}/multi_pdf"
+    mkdir -p $mydir
+
+    curl -o "${mydir}/multi_pdf.pdf" "https://upload.wikimedia.org/wikipedia/commons/1/18/Editing_Wikipedia_brochure_EN.pdf" >/dev/null 2>&1
+    pdf2htmlEX --dest-dir "${mydir}" "${mydir}/multi_pdf.pdf" >/dev/null 2>&1
+}
+
+graphics_pdf()
+{
+    mydir="${DIR_TARGET}/graphics_pdf"
+    mkdir -p $mydir
+
+    curl -o "${mydir}/graphics_pdf.pdf" "https://upload.wikimedia.org/wikipedia/commons/3/37/Detection_distribution.pdf" >/dev/null 2>&1
+    pdf2htmlEX --dest-dir "${mydir}" "${mydir}/graphics_pdf.pdf" >/dev/null 2>&1
 }
 
 # Framework
 #
 # Assertion functions used by the test functions.
 
-function assertEquals()
+assertEquals()
 {
     msg=$1
     expected=$2
@@ -38,7 +58,7 @@ function assertEquals()
     fi
 }
 
-function assertNotEquals()
+assertNotEquals()
 {
     msg=$1
     expected=$2
