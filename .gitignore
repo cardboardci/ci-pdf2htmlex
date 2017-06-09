@@ -1,8 +1,5 @@
 .DS_Store
 .vagrant
 *.swp
-*.db
-*.html
-
-*.pdf
-target/
+tests/target/
+doc/images/
