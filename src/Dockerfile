@@ -1,4 +1,4 @@
-FROM jrbeverly/baseimage:alpine-3.5
+FROM alpine:3.6
 
 #
 # Build Arguments
@@ -51,17 +51,14 @@ LABEL \
     org.label-schema.version=$VERSION \
     org.label-schema.url="https://github.com/coolwanglu/pdf2htmlEX" \
     org.label-schema.license="MIT" \
-    org.label-schema.vcs-type="Git" \
+    org.label-schema.docker.cmd="docker run -v $(pwd):/media/ jrbeverly/pdf2htmlex:privileged pdf2htmlEX --zoom 1.8 report.pdf" \
+    org.label-schema.vendor="jrbeverly" \
+    org.label-schema.schema-version="1.0" \
+    \
     org.label-schema.vcs-ref=$VCS_REF \
     org.label-schema.vcs-url="https://gitlab.com/jrbeverly-docker/docker-pdf2htmlEX" \
-    org.label-schema.docker.cmd="docker run -v /media/:/media/ jrbeverly/pdf2htmlex pdf2htmlEX report.pdf" \
     \
-    io.jrbeverly.project="pdfhtmlex" \
-    io.jrbeverly.summary="A docker image with pdf2htmlEX installed, running as the $USER user." \
-    io.jrbeverly.pdfhtmlex.meta.BUILD_DATE="The Date/Time the image was built." \
-    io.jrbeverly.pdfhtmlex.meta.VERSION="Release identifier for the contents of the image." \
-    io.jrbeverly.pdfhtmlex.meta.VCS_REF="Identifier for the version of the source code from which this image was built." \
-    io.jrbeverly.pdfhtmlex.args.USER="Sets the [user](http://www.linfo.org/uid.html) to use when running the image." \
-    io.jrbeverly.pdfhtmlex.args.FONTFORGE_URL="The URL to the fontforge source zip." \
-    io.jrbeverly.pdfhtmlex.args.PDF2HTMLEX_URL="The URL to the pdf2htmlex source zip." \
-    io.jrbeverly.pdfhtmlex.volume.media="/media/|The default working directory of the image." 
+    org.doc-schema.project="pdfhtmlex" \
+    org.doc-schema.summary="A docker image with pdf2htmlEX installed, running as the $USER user." \
+    org.doc-schema.user=$DUID \
+    org.doc-schema.group=$DGID
