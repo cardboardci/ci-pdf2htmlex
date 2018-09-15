@@ -2,16 +2,16 @@
 
 ## Summary
 
-A super small image with [X Window System](https://www.x.org/wiki/) development libraries installed. The project icon is from [cre.ativo mustard, HK from the Noun Project](docs/icon/README.md).
+A super small image with pdf2htmlEX installed. The project icon is from [cre.ativo mustard, HK from the Noun Project](docs/icon/icon.json)
 
 **NOTE: This image is marked EOL, and use is discouraged.**
 
 ## Usage
 
-You can use this image locally with `docker run`, calling `g++` to build X Window System applications:
+You can use this image locally with `docker run`, calling `pdf2htmlEX`:
 
 ```bash
-docker run -v /media/:/media/ jrbeverly/xwindow:privileged g++ myxapp.cpp -o xapp
+docker run -v /media/:/media/ jrbeverly/pdf2htmlEX:privileged pdf2htmlEX report.pdf
 ```
 
 ### Gitlab
@@ -20,12 +20,12 @@ You can setup a build job using `.gitlab-ci.yml`:
 
 ```yaml
 compile:
-  image: jrbeverly/xwindow:baseimage
+  image: jrbeverly/pdf2htmlEX:baseimage
   script:
-    - g++ myxapp.cpp -o xapp
+    - pdf2htmlEX report.pdf
   artifacts:
     paths:
-      - xapp
+      - report.pdf
 ```
 
 ## Components
@@ -71,7 +71,7 @@ You can view the [`build/README.md`](build/README.md) for more on using the `Mak
 The docker image follows the [Label Schema Convention](http://label-schema.org). Label Schema is a community project to provide a shared namespace for use by multiple tools, specifically `org.label-schema`. The values in the namespace can be accessed by the following command:
 
 ```bash
-docker inspect -f '{{ index .Config.Labels "org.label-schema.<LABEL>" }}' jrbeverly/xwindow
+docker inspect -f '{{ index .Config.Labels "org.label-schema.<LABEL>" }}' jrbeverly/pdf2htmlEX
 ```
 
 ### Label Extension
@@ -79,7 +79,7 @@ docker inspect -f '{{ index .Config.Labels "org.label-schema.<LABEL>" }}' jrbeve
 The label namespace `org.doc-schema` is an extension of `org.label-schema`. The namespace stores internal variables often used when interacting with the image. These variables will often be application versions or exposed internal variables. The values in the namespace can be accessed by the following command:
 
 ```bash
-docker inspect -f '{{ index .Config.Labels "org.doc-schema.<LABEL>" }}' jrbeverly/xwindow
+docker inspect -f '{{ index .Config.Labels "org.doc-schema.<LABEL>" }}' jrbeverly/pdf2htmlEX
 ```
 
 ## User and Group Mapping
@@ -89,8 +89,8 @@ All processes within the `baseimage` docker container will be run as the **docke
 Any permissions on the host operating system (OS) associated with either the user (`DUID`) or group (`DGID`) will be associated with the docker user. The values of `DUID` and `DGID` are visible in the [Build Arguments](#build-arguments), and can be accessed by the commands:
 
 ```bash
-docker inspect -f '{{ index .Config.Labels "org.doc-schema.user" }}' jrbeverly/xwindow:baseimage
-docker inspect -f '{{ index .Config.Labels "org.doc-schema.group" }}' jrbeverly/xwindow:baseimage
+docker inspect -f '{{ index .Config.Labels "org.doc-schema.user" }}' jrbeverly/pdf2htmlEX:baseimage
+docker inspect -f '{{ index .Config.Labels "org.doc-schema.group" }}' jrbeverly/pdf2htmlEX:baseimage
 ```
 
 The notation of the build variables is short form for docker user id (`DUID`) and docker group id (`DGID`).
